@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum Care 🌸</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+  font-family: 'Segoe UI', sans-serif;
+  background-image: url('/mnt/data/background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  color: #7a4e68;
+}
+
+    .loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff0f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 9999;
+    }
+
+    .loader span {
+      font-size: 2rem;
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.6; }
+    }
+
+    .navbar {
+      background-color: #ffdaf0;
+      padding: 1rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #a14f7b;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #a14f7b;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: #d94c91;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        width: 100%;
+        display: none;
+        text-align: center;
+        background-color: #ffdaf0;
+        padding-top: 1rem;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+    }
+
+    .ripple-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple-global 0.6s linear;
+      background: rgba(255, 182, 193, 0.4);
+      width: 100px;
+      height: 100px;
+      margin-left: -50px;
+      margin-top: -50px;
+      pointer-events: none;
+    }
+
+    @keyframes ripple-global {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      font-family: "Monotype Corsiva", "Lucida Calligraphy", cursive;
+      margin-bottom: 0.3rem;
+    }
+
+    header small {
+      display: block;
+      font-size: 1.1rem;
+      font-family: "Perpetua", "Times New Roman", serif;
+      color: #9a6585;
+    }
+
+    .marquee {
+      overflow: hidden;
+      white-space: nowrap;
+      box-sizing: border-box;
+      animation: marquee 20s linear infinite;
+      font-size: 1.2rem;
+      padding: 1rem;
+      color: #a14f7b;
+      background: #ffe2f0;
+    }
+ .info-box {
+      background-color: #ffe2f0;
+      color: #a14f7b;
+      border: 2px dashed #d94c91;
+      border-radius: 16px;
+      padding: 1rem;
+      text-align: center;
+      margin: 1.5rem auto;
+      width: fit-content;
+      max-width: 90%;
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .content-section {
+      display: none;
+      padding: 2rem;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    .gallery a {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      border-radius: 20px;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .gallery a:hover img {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+    }
+
+    .gallery-description {
+      max-width: 800px;
+      margin: 2rem auto;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: #7a4e68;
+      background: #fff0f6;
+      padding: 1.5rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .description-book {
+      background: #fde6f0; /* Rose Mist */
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 900px;
+      margin: 2rem auto;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      font-size: 1.1rem;
+      color: #6e4160;
+      line-height: 1.6;
+    }
+
+    .description-book .chapter {
+      margin-bottom: 2rem;
+    }
+
+    .description-book .chapter h3 {
+      margin-bottom: 0.5rem;
+      color: #a14f7b;
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.5rem;
+    }
+
+    .mystery {
+      text-align: center;
+      margin: 5rem auto;
+      max-width: 600px;
+      font-size: 1.5rem;
+      color: #a34a7e;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+
+    .mystery.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #ffd6ec;
+      color: #6b3f5c;
+      font-size: 0.9rem;
+    }
+
+    .music-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ffd6ec;
+      padding: 10px;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      cursor: pointer;
+      z-index: 10;
+    }
+  .visit-btn {
+  display: inline-block;
+  margin: 2rem auto;
+  padding: 0.8rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #d94c91;
+  border: none;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.visit-btn:hover {
+  background-color: #b23c74;
+}
+
+.contact-info {
+  font-size: 0.75rem;
+  line-height: 1.3;
+  color: #a14f7b;
+  position: absolute;
+  top: 8px;
+  right: 15px;
+  font-weight: 500;
+  text-align: right;
+}
+
+
+</style>
+</head>
+<body>
+  <div class="loader" id="loader">
+    <span>🌸 Loading your calm space...</span>
+  </div>
+
+  <nav class="navbar">
+    <div class="nav-content">
+      <div class="contact-info">
+  📩 Contact us on<br>
+  Phone No.: 1200-028-887<br>
+  Email: care@quantumspace.com
+</div>
+      <div class="hamburger ripple-container" onclick="toggleMenu()">☰</div>
+      <div class="nav-links" id="navLinks">
+        <a href="#" onclick="showSection('home')" class="ripple-container">Home</a>
+        <a href="#" onclick="showSection('resources')" class="ripple-container">Resources</a>
+        <a href="#" onclick="showSection('affirmations')" class="ripple-container">Affirmations</a>
+        <a href="#" onclick="showSection('about')" class="ripple-container">About Us</a>
+      </div>
+    </div>
+  </nav>
+
+  <header>
+    <h1>Quantum Care 🌷<br><small>Your Digital Wellness Dream</small></h1>
+  </header>
+
+  <div class="marquee">
+    Welcome to Quantum Care — Your dreamy, soft, healing space 🌸💫 Take a deep breath and bloom here...
+  </div>
+<div class="info-box">
+  <h4>📸 CLICK THE IMAGES FOR MORE INFO</h4>
+</div>
+
+  <section id="home" class="content-section active">
+    <div class="gallery">
+      <a href="https://icallhelpline.org/" target="_blank">
+        <img src="https://img.freepik.com/premium-photo/pink-background-with-pink-white-rocks-pink-flowers_388444-121438.jpg" alt="Pink Floral Healing">
+      </a>
+      <a href="https://www.youthkiawaaz.com/topic/mental-health/" target="_blank">
+        <img src="https://img.freepik.com/free-vector/sunset-sunrise-ocean-nature-landscape_33099-2244.jpg" alt="Sunrise Ocean">
+      </a>
+      <a href="https://yourdost.com/" target="_blank">
+        <img src="https://i.pinimg.com/736x/90/6c/ed/906cedfbc880baac41695fb7c0fd252a.jpg" alt="Healing Quote">
+      </a>
+    </div>
+
+    <div class="gallery-description">
+      <p style = "font-family: ForteBookman Old Style;font-size: x-large;"><b><u><strong>PREVIEW </strong></u></b></p>
+      <p>Quantum Care is your soft digital sanctuary — a space designed to soothe, inspire, and uplift. Through calming visuals, affirming words, and helpful resources, we aim to make mental wellness accessible and aesthetically comforting.</p>
+      <p>Whether you're here to breathe, to bloom, or just to browse — this site offers gentle guidance through affirmations, curated links to helplines and articles, and a visual retreat for your mind.</p> 
+      <p>Each site integrated with the images which provides trusted Indian websites that supports mental heath and provides moral support when you it the most .</p>
+      <p>Created with empathy by Ananya Kanchan and Muskan Kapri during PixelHack 2025, this is more than a project — it’s a personal passion for healing with design and purpose.</p>
+    </div>
+
+    <div class="description-book">
+      <div class="chapter">
+        <h3>📖 About the Site</h3>
+        <p>Quantum Care is a soft digital cocoon where calm meets creativity. Created during PixelHack 2025, this site offers a serene escape for those seeking healing, hope, and gentle guidance. Every detail is curated to make you feel held, heard, and home.</p>
+      </div>
+      <div class="chapter">
+        <h3>🧠 About Mental Health</h3>
+        <p>Mental health is an essential part of overall well-being. It involves how we think, feel, and act — and influences how we handle stress, relate to others, and make choices. This site gently reminds you that seeking help is strength, not weakness.</p>
+      </div>
+      <div class="chapter">
+        <h3>💗 About Self-Care & Love</h3>
+        <p>Self-care is the practice of nurturing your body, mind, and soul. It can be as simple as resting or as deep as healing old wounds. Through affirmations and soothing visuals, Quantum Care invites you to love yourself more with each click.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="resources" class="content-section">
+    <h2>🌱 Mental Health Resources</h2>
+    <p>Access helplines like <strong>iCall</strong>, read articles on <strong>Youth Ki Awaaz</strong>, or seek therapy on <strong>YourDOST</strong>. These resources support your journey toward emotional wellness.</p>
+  </section>
+
+  <section id="affirmations" class="content-section">
+    <h2>🌸 Daily Affirmations</h2>
+    <p>✨ I am growing and glowing every day.<br>✨ I am safe, I am loved, I am enough.<br>✨ My mind is calm, my heart is open.</p>
+  </section>
+
+  <section id="about" class="content-section">
+    <h2>💖 About Us</h2>
+    <p><strong>Quantum Care</strong> is a gentle digital space built by Ananya Kanchan and Muskan Kapri for the PixelHack Hackathon 2025, offering mindful self-care through aesthetics, inspiration, and support.</p>
+  </section>
+
+  <div class="mystery" id="mysteryElement">
+    🌸 “Your mind is a garden. Your thoughts are the seeds. You can grow flowers or you can grow weeds.” 🌸
+  </div>
+
+  <div style="text-align: center;">
+  <a href="2ndwebpage.html" class="visit-btn">🌐 Visit More Resources</a>
+</div>
+
+  <footer>
+    © 2025 Quantum Care — Built with 💕 by Ananya Kanchan and Muskan Kapri 🌸
+  </footer>
+
+  <div class="music-toggle ripple-container" onclick="toggleMusic()">🎵</div>
+  <audio id="bg-music" loop>
+    <source src="https://cdn.pixabay.com/audio/2022/03/28/audio_5b5b83bfa2.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const loader = document.getElementById('loader');
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        loader.style.display = 'none';
+      }, 3000);
+    });
+
+    function showSection(id) {
+      document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      const navLinks = document.getElementById('navLinks');
+      navLinks.classList.remove('active');
+    }
+
+    const mystery = document.getElementById('mysteryElement');
+    window.addEventListener('scroll', () => {
+      const scrollPos = window.scrollY + window.innerHeight;
+      const mysteryPos = mystery.offsetTop;
+      if (scrollPos > mysteryPos + 100) {
+        mystery.classList.add('visible');
+      }
+    });
+
+    function toggleMusic() {
+      const music = document.getElementById('bg-music');
+      music.paused ? music.play() : music.pause();
+    }
+
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('active');
+    }
+
+    document.querySelectorAll('.ripple-container').forEach(elem => {
+      elem.addEventListener('click', function (e) {
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        const rect = this.getBoundingClientRect();
+   ripple.style.left = `${e.clientX - rect.left}px`;
+ripple.style.top = `${e.clientY - rect.top}px`;
+
+        this.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+      });
+    });
+  </script>
+</body>
+</html>
